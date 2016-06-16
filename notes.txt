@@ -1,0 +1,12 @@
+gnosis/theDAO integraiton
+-- whenever a proposal is created, created gnosis prediction market (manual vs automatic)
+---> small adapter contract would need to be written
+------ read theDAO proposal outcome, and push it into the prediction market
+-------- https://github.com/ConsenSys/gnosis/blob/structure_gnosisjs/contracts/solidity/AbstractResolver.sol
+-------- must implment this AbstractResolver interface
+-------- here's a concrete impl
+-------- https://github.com/ConsenSys/gnosis/blob/structure_gnosisjs/contracts/solidity/DifficultyResolver.sol
+-------- here's the DAO shit
+-------- https://github.com/slockit/DAO/blob/master/DAO.sol#L114
+
+---> write a blog post about the process about linking contracts

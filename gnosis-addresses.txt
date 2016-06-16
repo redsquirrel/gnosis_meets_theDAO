@@ -1,0 +1,18 @@
+--tesnet
+
+Contract FutarchyResolver.sol was created at address 0xaab24115a22e2da192ca6f92693746f9ce42e06f.
+Contract MathLibrary was created at address 0xe30a4cad2453c92a2fefa07b3ab2335fc326ff19.
+Contract HunchGameToken was created at address 0xf17371f35e0945de4c4d5a2512450cf5c42ea7d1.
+Contract EventToken was created at address 0x231e4d82ec06028968774c6ba341de757e18c8c8.
+Contract Crowdfunding was created at address 0xe1096f210a2943fadc667a2e5c44062d97a37ed6.
+Contract MarketLibrary was created at address 0xa52827a52d302857f4a5768ac5e7e5ac3236eaea.
+Contract DAO was created at address 0x984e6d669e02a19aca37825b3c3b68f7990a9750.
+Contract TokenLibrary was created at address 0x4070ab511b3b5f6ae4fbe1c624cd54b9a38326e1.
+Contract TokenWithIdentifierLibrary was created at address 0x75e558edad21d6e5e8c2f151c205c1816ad41202.
+Contract DifficultyResolver was created at address 0x2af5080390a628196f2742eadeca4071112e12db.
+Contract FutarchyResolver was created at address 0xaab24115a22e2da192ca6f92693746f9ce42e06f.
+Contract OffChainTrading was created at address 0xa7160531bfb42fbd2365d793b9d816e493c18e56.
+Contract UltimateResolver was created at address 0xbf115d41e66bcc6028693969e38c4714da11e4b3.
+Contract OffChainTradingLibrary was created at address 0xad29ec9d2ae1a0351136c42823349e38a0fa121d.
+Contract LMSRMarketMaker was created at address 0x5f1a458636c8a9d21b3684a26af4a073c40c1f9c.
+Contract Market was created at address 0x41fa8fab13d0b0fce78dd6e325ab20fa5cde07ca.
