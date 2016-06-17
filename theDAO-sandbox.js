@@ -15,9 +15,9 @@ var instance = web3.eth.contract(abi).at(address);
 
 // newProposal();
 
-// lookAtProposals();
+lookAtProposals();
 
-lookAtAllEvents();
+// lookAtAllEvents();
 
 function lookAtAllEvents() {
   // Transfer(address,address,uint256) ==> 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
@@ -111,7 +111,9 @@ function newProposal() {
 
 function lookAtProposals() {
   var numProposals = parseInt(instance.numberOfProposals());
+  var newCuratorCount = 0;
   var passCount = 0;
+  var nonSplitPassedCount = 0;
 
   // proposals[n]
   // outputs: 
@@ -131,13 +133,18 @@ function lookAtProposals() {
   for (var i = 1; i <= numProposals; i++) {
     var rawData = instance.proposals(i);
     if (rawData[5]) passCount++;
-    console.log('---------------');
-    console.log(rawData[2]);
-    console.log(rawData[6]);
+    if (rawData[8]) newCuratorCount++;
+    if (rawData[5] && !rawData[8]) nonSplitPassedCount++;
+    if (!rawData[8]) {
+      console.log(i, rawData[2]);
+      console.log('');
+    }
   }
 
   console.log('Current proposal count: ', numProposals);
-  console.log('Passed proposal count', passCount);
+  console.log('newCuratorCount', newCuratorCount);
+  console.log('passCount', passCount);
+  console.log('nonSplitPassedCount', nonSplitPassedCount);
 }
 
 function handleError(msg) {

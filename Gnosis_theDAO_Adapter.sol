@@ -1,20 +1,22 @@
 import "theDAO.sol";
+import "gnosis.sol";
 
 contract Gnosis_theDAO_Adapter {
     DAOInterface public dao;
+    AbstractResolverContract public gnosis;
 
     struct ProposalStatus {
         bool open;
         bool passed;
+        bool split;
     }
 
     uint public numProposals;
     uint[] public openProposalIDs;
 
-    event SendToGnosis(uint proposalID, bool proposalPassed);
-
-    function Gnosis_theDAO_Adapter(DAOInterface theDAO) {
-        dao = theDAO;
+    function Gnosis_theDAO_Adapter(DAOInterface _dao, AbstractResolverContract _gnosis) {
+        dao = _dao;
+        gnosis = _gnosis;
     }
 
     function sync() {
@@ -25,9 +27,9 @@ contract Gnosis_theDAO_Adapter {
     // process any previously known open proposals
     function processPrevious() internal {
         for (uint i = 0; i < openProposalIDs.length; i++) {
-            ProposalStatus memory ps = proposalStatus(openProposalIDs[i]);
+            ProposalStatus memory ps = getProposalStatus(openProposalIDs[i]);
             if (!ps.open) {
-                SendToGnosis(openProposalIDs[i], ps.passed);
+                sendToGnosis(ps, openProposalIDs[i]);
                 delete openProposalIDs[i];
             }
         }    
@@ -39,18 +41,30 @@ contract Gnosis_theDAO_Adapter {
         uint newNumProposals = latestNumProposals - numProposals;
         for (uint i = 0; i < newNumProposals; i++) {
             uint proposalID = latestNumProposals - i;
-            ProposalStatus memory ps = proposalStatus(proposalID);
-            if (ps.open) {
-                openProposalIDs.push(proposalID);
-            } else {
-                SendToGnosis(proposalID, ps.passed);
+            ProposalStatus memory ps = getProposalStatus(proposalID);
+            if (!ps.split) { // ignore split proposals
+                if (ps.open) {
+                    openProposalIDs.push(proposalID);
+                } else {
+                    sendToGnosis(ps, proposalID);
+                }
             }
         }
         numProposals = latestNumProposals;  
     }
   
-    function proposalStatus(uint proposalID) internal returns (ProposalStatus) {
+    function getProposalStatus(uint proposalID) internal returns (ProposalStatus) {
         var (recipient, amount, description, votingDeadline, open, proposalPassed, proposalHash, proposalDeposit, newCurator, yea, nay, creator) = dao.proposals(proposalID);
-        return ProposalStatus(open, proposalPassed);
+        return ProposalStatus(open, proposalPassed, newCurator);
+    }
+
+    function sendToGnosis(ProposalStatus ps, uint proposalID) internal {
+        bytes32[] memory data;
+        if (ps.passed) {
+            data[0] = "passed";
+        } else {
+            data[0] = "failed";
+        }
+        gnosis.setWinningOutcome(bytes32(proposalID), data);
     }
 }
