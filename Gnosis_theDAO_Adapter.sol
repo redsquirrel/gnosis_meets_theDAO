@@ -31,6 +31,8 @@ contract Gnosis_theDAO_Adapter {
             if (!ps.open) {
                 sendToGnosis(ps, openProposalIDs[i]);
                 delete openProposalIDs[i];
+                // TODO: this delete leaves a gap,
+                // see http://ethereum.stackexchange.com/questions/1527/how-to-delete-an-element-at-a-certain-index-in-an-array
             }
         }    
     }
